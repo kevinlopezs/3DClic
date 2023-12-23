@@ -1,0 +1,29 @@
+name: teka_3dclic
+description: A new Flutter project.
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.0.6 <4.0.0'
+
+dependencies:
+  dio: ^5.3.3
+  dots_indicator: ^3.0.0
+  flutter:
+    sdk: flutter
+  go_router: ^11.0.0
+  lottie: ^2.6.0
+  provider: ^6.0.5
+  shared_preferences: ^2.2.1
+  flutter_native_splash: ^2.3.3
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/lottie/
+    - assets/images/
