@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:teka_3dclic/config/menus/app_menu.dart';
+import 'package:teka_3dclic/presentation/dummy_data/app_menu.dart';
 
 class HomeScreen extends StatefulWidget {
   static const name = 'home_screen';

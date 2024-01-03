@@ -1,13 +1,13 @@
 // ignore: depend_on_referenced_packages
 import 'package:go_router/go_router.dart';
-import 'package:teka_3dclic/presentation/screens/screens.dart';
+import 'package:teka_3dclic/presentation/pages/screens.dart';
 
 final appRouter = GoRouter(routes: [
   //Config route for home
   GoRoute(
     path: '/',
-    name: Welcome.name,
-    builder: (context, state) => const Welcome(),
+    name: OnboardingScreen.name,
+    builder: (context, state) => const OnboardingScreen(),
   ),
 
   //Config route for signup
@@ -24,9 +24,9 @@ final appRouter = GoRouter(routes: [
 
   //Config route for login
   GoRoute(
-    name: Login.name,
+    name: SignIn.name,
     path: '/login_screen',
-    builder: (context, state) => const Login(),
+    builder: (context, state) => const SignIn(),
   ),
   //Config route for calculator
   GoRoute(

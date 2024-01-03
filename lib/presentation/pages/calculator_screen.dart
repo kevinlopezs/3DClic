@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 
 class CalculatorScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
       body: Stack(
         children: [
           Positioned(
-            bottom: size.height * 0.65, //This upload the background image
+            bottom: size.height * 0.6, //This upload the background image
             child: Container(
               width: size.width,
               height: size.height,
@@ -31,6 +32,17 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
               ),
             ),
           ),
+
+          Positioned(
+              top: size.height * 0.5, //This upload the background image
+              child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(Icons.arrow_back_ios_rounded),
+                color: Colors.red,
+              )),
+
           Positioned(
             width: size.width,
             bottom: size.height * 0.0,
@@ -48,6 +60,19 @@ class _CalculatorScreenState extends State<CalculatorScreen> {
 
           //Form design
           Form3DCalculator(size: size, fonts: fonts),
+
+          Positioned(
+              top: size.height * 0.06, //This upload the background image
+              left: size.width * 0.05,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios_rounded,
+                  color: Colors.white,
+                ),
+              )),
         ],
       ),
     );
@@ -157,8 +182,9 @@ class Form3DCalculator extends StatelessWidget {
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                              label: Text('Tiempo impresión'),
-                              prefixIcon: Icon(Icons.timer)),
+                            label: Text('Tiempo impresión'),
+                            prefixIcon: Icon(Icons.timer),
+                          ),
                         ),
                       ),
                       //Cantidad de material
@@ -167,9 +193,9 @@ class Form3DCalculator extends StatelessWidget {
                         child: TextFormField(
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
-                              label: Text('Cantidad material'),
-                              prefixIcon:
-                                  Icon(Icons.production_quantity_limits)),
+                            label: Text('Cantidad material'),
+                            prefixIcon: Icon(Icons.production_quantity_limits),
+                          ),
                         ),
                       ),
                     ],

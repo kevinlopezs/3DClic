@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:teka_3dclic/config/menus/app_invoices_menu.dart';
+import 'package:teka_3dclic/presentation/dummy_data/app_invoices_menu.dart';
 
 class InvoiceScreen extends StatelessWidget {
   static const String name = 'invoice_screen';

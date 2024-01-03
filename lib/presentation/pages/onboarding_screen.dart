@@ -2,22 +2,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:go_router/go_router.dart';
-import '../../../shared/data/intro_screen_data.dart';
+import '../dummy_data/intro_screen_data.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
-import '../screens.dart';
+import 'screens.dart';
 
-class Welcome extends StatefulWidget {
+class OnboardingScreen extends StatefulWidget {
   //Static name for screen
   static const String name = 'welcome_screen';
 
-  const Welcome({super.key});
+  const OnboardingScreen({super.key});
 
   @override
-  State<Welcome> createState() => _WelcomeState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _WelcomeState extends State<Welcome> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -169,7 +169,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0)))),
               onPressed: () {
-                context.pushNamed(Login.name);
+                context.pushNamed(SignIn.name);
               },
               child: const Padding(
                   padding: EdgeInsets.all(14.0),
