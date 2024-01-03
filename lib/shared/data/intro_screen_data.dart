@@ -14,23 +14,14 @@ class IntroTutorial {
 
 final slidesIntroTutorial = <IntroTutorial>[
   IntroTutorial(
-      title: '3D + Costos = ¡Magia!',
-      caption: 'Una nueva dimensión',
+      title: '3DClic',
+      caption:
+          'An App to calculate every 3d printing, generate PDF invoices, see last 3d models in Thingiverse and Cults 3D',
       assetUrl: 'assets/lottie/animation_printer2.json',
       dot: 1),
   IntroTutorial(
-      title: 'Precisión en Segundos',
-      caption: 'Calcula costos al instante.',
-      assetUrl: 'assets/lottie/animation_money.json',
-      dot: 2),
-  IntroTutorial(
-      title: 'Cotizaciones en un Clic',
-      caption: 'Genera cotizaciones en PDF.',
+      title: 'Generate invoice PDF',
+      caption: 'You can generate invoices and generate a PDF if you want it',
       assetUrl: 'assets/lottie/animation_pdf.json',
-      dot: 3),
-  IntroTutorial(
-      title: 'Todo lo nuevo en 3D',
-      caption: 'Visualiza las últimas creaciones',
-      assetUrl: 'assets/lottie/animation_rocket.json',
-      dot: 4)
+      dot: 2),
 ];

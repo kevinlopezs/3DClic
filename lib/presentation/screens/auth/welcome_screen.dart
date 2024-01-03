@@ -39,7 +39,7 @@ class _WelcomeContent extends StatefulWidget {
 }
 
 class _WelcomeContentState extends State<_WelcomeContent> {
-  final _totalDots = 4;
+  final _totalDots = slidesIntroTutorial.length;
   int _currentPage = 0;
   final PageController _pageViewController = PageController(initialPage: 0);
 
@@ -47,6 +47,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
 
   @override
   void initState() {
+    super.initState();
     if (!isMounted) return;
 
     if (mounted) {
@@ -59,7 +60,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
       // TODO: implement initState
 
       Timer.periodic(const Duration(seconds: 5), (timer) {
-        if (_currentPage < 3 && isMounted) {
+        if (_currentPage < 1 && isMounted) {
           _currentPage++;
           if (!isMounted) return; //This solve crash screen mounted
           setState(() {});
@@ -76,8 +77,6 @@ class _WelcomeContentState extends State<_WelcomeContent> {
         );
       });
     } //THIS IS VERY IMPORTANT TO UPDATE PAGE VIEW CONTROLLER
-
-    super.initState();
   }
 
   @override
@@ -120,22 +119,11 @@ class _WelcomeContentState extends State<_WelcomeContent> {
         DotsIndicator(
           dotsCount: _totalDots,
           position: _currentPage,
-
-          //position: _currentPage,
         ),
 
-        /*Text(
-          '¡No pares de imprimir!',
-          style: fonts.titleMedium,
-        ),*/
         const SizedBox(
           height: 25,
         ),
-        /*Text(
-          'Es momento de empezar',
-          style: fonts.titleSmall,
-          textAlign: TextAlign.center,
-        ),*/
 
         //Sign up button
         SizedBox(
@@ -156,7 +144,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
               child: Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: Text(
-                    'Crear cuenta',
+                    'Sign up',
                     style: fonts.labelLarge,
                   ))),
         ),
@@ -186,7 +174,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
               child: const Padding(
                   padding: EdgeInsets.all(14.0),
                   child: Text(
-                    'Ingresar',
+                    'Sign in',
                     style: TextStyle(fontSize: 16),
                   ))),
         ),
