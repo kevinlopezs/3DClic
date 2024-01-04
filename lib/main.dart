@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       getPages: AppPages.pages,
-      initialRoute: AppRoutes.onboarding,
+      initialRoute: AppRoutes.onboardingScreen,
       theme: AppTheme(
         selectedColor: 6,
         selectedFont: 1,

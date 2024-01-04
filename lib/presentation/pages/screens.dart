@@ -1,6 +1,6 @@
-export 'auth/sing_in_screen.dart';
-export 'auth/sign_up_screen.dart';
-export 'auth/sign_up_verification_screen.dart';
+export 'auth/sign_in/sing_in_screen.dart';
+export 'auth/sign_up/sign_up_screen.dart';
+export 'auth/sign_up/sign_up_verification_screen.dart';
 export 'onboarding_screen.dart';
 export 'home_screen.dart';
 export 'calculator_screen.dart';

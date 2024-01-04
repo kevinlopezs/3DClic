@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import '../screens.dart';
+import 'package:teka_3dclic/presentation/routes/app_pages.dart';
+import '../../screens.dart';
 
 class SignUp extends StatefulWidget {
-  //Name for GoRouter
-  static const name = 'signup_screen';
   const SignUp({super.key});
 
   @override
@@ -63,7 +63,7 @@ class _SignUpBodyState extends State<_SignUpBody> {
             Align(
               alignment: Alignment.topLeft,
               child: GestureDetector(
-                onTap: () => context.pop(),
+                onTap: () => Get.back(),
                 child: Icon(Icons.arrow_back_ios_outlined,
                     size: 32, color: widget.colors.primary),
               ),
@@ -112,7 +112,7 @@ class _SignUpBodyState extends State<_SignUpBody> {
                     width: double.infinity,
                     child: FilledButton(
                         onPressed: () {
-                          context.pushNamed(SignUpVerification.name);
+                          Get.toNamed(AppRoutes.signUpVerificationScreen);
                         },
                         style: ButtonStyle(
                             //elevation: const MaterialStatePropertyAll(12.0),

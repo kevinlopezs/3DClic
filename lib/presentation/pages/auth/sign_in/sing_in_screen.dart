@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../screens.dart';
+import '../../screens.dart';
 
 class SignIn extends StatefulWidget {
   static const String name = 'login_screen.dart';

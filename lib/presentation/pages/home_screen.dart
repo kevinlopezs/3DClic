@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:teka_3dclic/presentation/dummy_data/app_menu.dart';
+import 'package:teka_3dclic/presentation/routes/app_pages.dart';
 
 class HomeScreen extends StatefulWidget {
   static const name = 'home_screen';
@@ -144,54 +146,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: appMenus
                       .map((slideData) => _cardMenu(
                           onTap: () {
-                            context.push(slideData.link);
+                            //context.push(slideData.link);
+                            Get.toNamed(slideData.link);
                           },
                           title: slideData.title,
                           icon: slideData.icon,
                           assetHeight: size.height * 0.08))
                       .toList(),
-                  /*...homeMenu.map(
-                      (card) => _cardMenu(
-                          title: card['title'],
-                          icon: card['icon'],
-                          assetHeight: size.height * 0.08),
-                    ),
-                    ...homeMenu.map(
-                      (card) => _cardMenu(
-                          title: card['title2'],
-                          icon: card['icon2'],
-                          assetHeight: size.height * 0.08),
-                    ),
-                    ...homeMenu.map(
-                      (card) => _cardMenu(
-                          title: card['title3'],
-                          icon: card['icon3'],
-                          assetHeight: size.height * 0.08),
-                    ),
-
-                    /* _cardMenu(
-                        title: homeMenu[0].title,
-                        icon: homeMenu[0].icon,
-                        assetHeight: size.height * 0.08),
-                    _cardMenu(
-                      title: homeMenu[1].title,
-                      icon: homeMenu[1].icon,
-                      assetHeight: size.height * 0.08,
-                    ),
-                    _cardMenu(
-                      title: homeMenu[2].title,
-                      icon: homeMenu[2].icon,
-                      assetHeight: size.height * 0.08,
-                    )*/
-                    */
-                  /*ListView.builder(itemBuilder: ((context, index) {
-                      final homeMenu = appMenus[index];
-                      return ListTile(
-                        title: Text(homeMenu.title),
-                        subtitle: Text(homeMenu.title),
-                        leading: const Icon(Icons.adf_scanner),
-                      );
-                    }))*/
                 )
               ],
             ))

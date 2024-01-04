@@ -1,16 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:go_router/go_router.dart';
-import '../dummy_data/intro_screen_data.dart';
+import 'package:teka_3dclic/presentation/routes/app_pages.dart';
+import '../dummy_data/onboarding_data.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
-import 'screens.dart';
-
 class OnboardingScreen extends StatefulWidget {
-  //Static name for screen
-  static const String name = 'welcome_screen';
-
   const OnboardingScreen({super.key});
 
   @override
@@ -139,7 +135,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
                           borderRadius: BorderRadius.circular(24.0)))),
               onPressed: () {
                 //Action to go sign up screen
-                context.pushNamed(SignUp.name);
+                Get.toNamed(AppRoutes.signUpScreen);
               },
               child: Padding(
                   padding: const EdgeInsets.all(14.0),
@@ -169,7 +165,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0)))),
               onPressed: () {
-                context.pushNamed(SignIn.name);
+                Get.toNamed(AppRoutes.signInScreen);
               },
               child: const Padding(
                   padding: EdgeInsets.all(14.0),
