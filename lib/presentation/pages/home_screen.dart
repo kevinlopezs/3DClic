@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:teka_3dclic/presentation/dummy_data/app_menu.dart';
-import 'package:teka_3dclic/presentation/routes/app_pages.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeScreen extends StatefulWidget {
   static const name = 'home_screen';
@@ -24,7 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
   //const homeMenu = cards;
   @override
   void initState() {
+    super.initState();
     if (!isMounted) return;
+    _initTimer();
 
     if (mounted) {
       _pageViewController.addListener(() {
@@ -32,30 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       });
 
       // TODO: implement initState
-
-      if (isMounted == true) {
-        Timer.periodic(const Duration(seconds: 5), (timer) {
-          if (_currentPage < 1) {
-            _currentPage++;
-            if (!isMounted) return;
-            setState(() {});
-          } else {
-            _currentPage = 0;
-            if (!isMounted) return;
-            setState(() {});
-          }
-
-          //Without this animation not working
-          _pageViewController.animateToPage(
-            _currentPage,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInCubic,
-          );
-        });
-      }
     }
-
-    super.initState();
   }
 
   @override
@@ -66,11 +44,34 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
+  //Start timer for page view auto slide
+  void _initTimer() {
+    if (isMounted == true) {
+      Timer.periodic(const Duration(seconds: 5), (timer) {
+        if (_currentPage < 1) {
+          _currentPage++;
+          if (!isMounted) return;
+          setState(() {});
+        } else {
+          _currentPage = 0;
+          if (!isMounted) return;
+          setState(() {});
+        }
+
+        //Without this animation not working
+        _pageViewController.animateToPage(
+          _currentPage,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInCubic,
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final fonts = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
-
     final size = MediaQuery.of(context).size;
 
     return SafeArea(
@@ -128,16 +129,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                10.verticalSpace,
+
                 Text(
-                  'Inicio',
+                  'Menu',
                   style: fonts.titleMedium,
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                10.verticalSpace,
                 //This is method for map screen of cards
                 Wrap(
                   alignment: WrapAlignment.center,
@@ -153,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           icon: slideData.icon,
                           assetHeight: size.height * 0.08))
                       .toList(),
-                )
+                ),
               ],
             ))
           ],
