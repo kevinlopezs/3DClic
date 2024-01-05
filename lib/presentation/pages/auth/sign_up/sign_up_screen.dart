@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:teka_3dclic/presentation/pages/auth/sign_up/sign_up_screen_controller.dart';
 import 'package:teka_3dclic/presentation/routes/app_pages.dart';
-import '../../screens.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -19,10 +19,20 @@ class _SignUpState extends State<SignUp> {
     final colors = Theme.of(context).colorScheme;
     //Instance for fonts apptheme
     final fonts = Theme.of(context).textTheme;
+    //Instance for mediaquery size
+    final size = MediaQuery.of(context).size;
+    //Instancia SignUpController
+    final SignUpController signUpController = Get.put(SignUpController());
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xfff7f6fb),
-        body: _SignUpBody(colors: colors, fonts: fonts));
+        body: _SignUpBody(
+          colors: colors,
+          fonts: fonts,
+          size: size,
+          signUpController: signUpController,
+        ));
   }
 }
 
@@ -31,10 +41,14 @@ class _SignUpBody extends StatefulWidget {
   const _SignUpBody({
     required this.colors,
     required this.fonts,
+    required this.size,
+    required this.signUpController,
   });
 
   final ColorScheme colors;
   final TextTheme fonts;
+  final Size size;
+  final SignUpController signUpController;
 
   @override
   State<_SignUpBody> createState() => _SignUpBodyState();
@@ -48,6 +62,9 @@ class _SignUpBodyState extends State<_SignUpBody> {
     final colors = Theme.of(context).colorScheme;
 
     final size = MediaQuery.of(context).size;
+
+    //Instance for listen signUpController
+    final signUpController = Get.find<SignUpController>();
 
     //Scroll is used to auto scroll when user uses textformfield
     return SingleChildScrollView(
@@ -85,12 +102,12 @@ class _SignUpBodyState extends State<_SignUpBody> {
               height: 24,
             ),
 
-            Text('Registrarse', style: widget.fonts.titleMedium),
+            Text('Sign up', style: widget.fonts.titleMedium),
 
             const SizedBox(height: 10),
 
             Text(
-              'Agregue su número de teléfono. Le enviaremos un código de verificación',
+              'Please add an email and password. We send to your email a link to verify the account',
               style: widget.fonts.titleSmall,
               textAlign: TextAlign.center,
             ),
@@ -105,14 +122,24 @@ class _SignUpBodyState extends State<_SignUpBody> {
                 children: [
                   //This is CustomTextFormField
                   _CustomTextFormFieldSignUp(
-                      colors: widget.colors, fonts: widget.fonts),
+                      colors: widget.colors,
+                      fonts: widget.fonts,
+                      size: size,
+                      signUpController: signUpController),
                   const SizedBox(height: 22),
                   //Botton for send verification code
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                        onPressed: () {
-                          Get.toNamed(AppRoutes.signUpVerificationScreen);
+                        onPressed: () async {
+                          await signUpController.onLogin();
+
+                          if (signUpController.formKey.currentState!
+                              .validate()) {
+                            Get.toNamed(AppRoutes.signUpVerificationScreen);
+                          } else {
+                            return;
+                          }
                         },
                         style: ButtonStyle(
                             //elevation: const MaterialStatePropertyAll(12.0),
@@ -126,7 +153,7 @@ class _SignUpBodyState extends State<_SignUpBody> {
                                         BorderRadius.circular(24.0)))),
                         child: Padding(
                           padding: const EdgeInsets.all(14.0),
-                          child: Text('Enviar', style: fonts.labelLarge),
+                          child: Text('Send', style: fonts.labelLarge),
                         )),
                   ),
                 ],
@@ -146,10 +173,17 @@ class _SignUpBodyState extends State<_SignUpBody> {
 
 //Custom TextFormField SignUp body content
 class _CustomTextFormFieldSignUp extends StatefulWidget {
-  const _CustomTextFormFieldSignUp({required this.colors, required this.fonts});
+  const _CustomTextFormFieldSignUp({
+    required this.colors,
+    required this.fonts,
+    required this.size,
+    required this.signUpController,
+  });
 
+  final SignUpController signUpController;
   final ColorScheme colors;
   final TextTheme fonts;
+  final Size size;
 
   @override
   State<_CustomTextFormFieldSignUp> createState() =>
@@ -158,31 +192,53 @@ class _CustomTextFormFieldSignUp extends StatefulWidget {
 
 class _CustomTextFormFieldSignUpState
     extends State<_CustomTextFormFieldSignUp> {
+  //Instance Textformfieldcontroller
+  final TextEditingController passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      style: widget.fonts.bodySmall,
-      decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: Colors.black12),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.black12),
-              borderRadius: BorderRadius.circular(10)),
-          prefixIcon: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              '(+57)',
-              style: widget.fonts.bodySmall,
+    return Form(
+      key: widget.signUpController.formKey,
+      child: Column(
+        children: [
+          SizedBox(
+            width: widget.size.width,
+            child: TextFormField(
+              validator: (email) =>
+                  widget.signUpController.validateEmail(email),
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(
+                  label: Text('Email'), prefixIcon: Icon(Icons.email_outlined)),
             ),
           ),
-          suffixIcon: const Icon(
-            Icons.check_circle,
-            color: Colors.green,
-            size: 32,
-          )),
+          20.verticalSpace,
+          SizedBox(
+            width: widget.size.width,
+            child: TextFormField(
+              style: const TextStyle(overflow: TextOverflow.visible),
+              validator: (pwd) => widget.signUpController.validatePass(pwd),
+              obscureText: !_isPasswordVisible,
+              controller: passwordController,
+              keyboardType: TextInputType.visiblePassword,
+              decoration: InputDecoration(
+                errorMaxLines: 5,
+                label: const Text('Password'),
+                prefixIcon: const Icon(Icons.lock),
+                suffixIcon: InkWell(
+                  child: Icon(_isPasswordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onTap: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
