@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:teka_3dclic/presentation/pages/auth/sign_up/sign_up_screen_controller.dart';
-import 'package:teka_3dclic/presentation/routes/app_pages.dart';
+import 'package:teka_3dclic/services/auth_services.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -13,6 +13,12 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  //Instance SignUpController
+  final SignUpController signUpController = Get.put(SignUpController());
+  //Intance TextEditing controller email
+  final TextEditingController emailController = TextEditingController();
+  //Instance TextEditing controller pwds
+  final TextEditingController pwdController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     //Instance for colors apptheme
@@ -21,8 +27,6 @@ class _SignUpState extends State<SignUp> {
     final fonts = Theme.of(context).textTheme;
     //Instance for mediaquery size
     final size = MediaQuery.of(context).size;
-    //Instancia SignUpController
-    final SignUpController signUpController = Get.put(SignUpController());
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -32,6 +36,8 @@ class _SignUpState extends State<SignUp> {
           fonts: fonts,
           size: size,
           signUpController: signUpController,
+          emailController: emailController,
+          pwdController: pwdController,
         ));
   }
 }
@@ -43,8 +49,11 @@ class _SignUpBody extends StatefulWidget {
     required this.fonts,
     required this.size,
     required this.signUpController,
+    required this.emailController,
+    required this.pwdController,
   });
-
+  final TextEditingController emailController;
+  final TextEditingController pwdController;
   final ColorScheme colors;
   final TextTheme fonts;
   final Size size;
@@ -65,6 +74,7 @@ class _SignUpBodyState extends State<_SignUpBody> {
 
     //Instance for listen signUpController
     final signUpController = Get.find<SignUpController>();
+    AuthServices authServices = AuthServices();
 
     //Scroll is used to auto scroll when user uses textformfield
     return SingleChildScrollView(
@@ -122,10 +132,13 @@ class _SignUpBodyState extends State<_SignUpBody> {
                 children: [
                   //This is CustomTextFormField
                   _CustomTextFormFieldSignUp(
-                      colors: widget.colors,
-                      fonts: widget.fonts,
-                      size: size,
-                      signUpController: signUpController),
+                    colors: widget.colors,
+                    fonts: widget.fonts,
+                    size: size,
+                    signUpController: signUpController,
+                    email: widget.emailController,
+                    pwd: widget.pwdController,
+                  ),
                   const SizedBox(height: 22),
                   //Botton for send verification code
                   SizedBox(
@@ -136,7 +149,16 @@ class _SignUpBodyState extends State<_SignUpBody> {
 
                           if (signUpController.formKey.currentState!
                               .validate()) {
-                            Get.toNamed(AppRoutes.signUpVerificationScreen);
+                            //Send arguments email and password to controller
+                            signUpController.email.value =
+                                widget.emailController.text;
+                            signUpController.password.value =
+                                widget.pwdController.text;
+                            //Create a new user
+                            signUpController.signUp();
+                            //authServices
+                            //    .checkEmailExists(widget.emailController.text);
+                            //Get.toNamed(AppRoutes.signUpVerificationScreen);
                           } else {
                             return;
                           }
@@ -178,8 +200,12 @@ class _CustomTextFormFieldSignUp extends StatefulWidget {
     required this.fonts,
     required this.size,
     required this.signUpController,
+    required this.email,
+    required this.pwd,
   });
 
+  final TextEditingController email;
+  final TextEditingController pwd;
   final SignUpController signUpController;
   final ColorScheme colors;
   final TextTheme fonts;
@@ -192,8 +218,6 @@ class _CustomTextFormFieldSignUp extends StatefulWidget {
 
 class _CustomTextFormFieldSignUpState
     extends State<_CustomTextFormFieldSignUp> {
-  //Instance Textformfieldcontroller
-  final TextEditingController passwordController = TextEditingController();
   bool _isPasswordVisible = false;
   @override
   Widget build(BuildContext context) {
@@ -204,11 +228,19 @@ class _CustomTextFormFieldSignUpState
           SizedBox(
             width: widget.size.width,
             child: TextFormField(
+              controller: widget.email,
               validator: (email) =>
                   widget.signUpController.validateEmail(email),
               keyboardType: TextInputType.emailAddress,
               decoration: const InputDecoration(
-                  label: Text('Email'), prefixIcon: Icon(Icons.email_outlined)),
+                label: Text('Email'),
+                prefixIcon: Icon(Icons.email_outlined),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  widget.email.text = value;
+                });
+              },
             ),
           ),
           20.verticalSpace,
@@ -218,7 +250,7 @@ class _CustomTextFormFieldSignUpState
               style: const TextStyle(overflow: TextOverflow.visible),
               validator: (pwd) => widget.signUpController.validatePass(pwd),
               obscureText: !_isPasswordVisible,
-              controller: passwordController,
+              controller: widget.pwd,
               keyboardType: TextInputType.visiblePassword,
               decoration: InputDecoration(
                 errorMaxLines: 5,
@@ -235,6 +267,11 @@ class _CustomTextFormFieldSignUpState
                   },
                 ),
               ),
+              onChanged: (value) {
+                setState(() {
+                  widget.pwd.text = value;
+                });
+              },
             ),
           ),
         ],

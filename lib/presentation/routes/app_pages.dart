@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:teka_3dclic/presentation/pages/auth/splash_screen/splash_screen.dart';
 import 'package:teka_3dclic/presentation/pages/screens.dart';
 part './app_routes.dart';
 
@@ -13,6 +14,14 @@ abstract class AppPages {
         })),
 
     //Auth screens//
+    //Splash screen
+    GetPage(
+        name: AppRoutes.splashScreen,
+        page: () => const SplashScreen(),
+        binding: BindingsBuilder(() {
+          Get.lazyPut(() => const SplashScreen());
+        })),
+
     //SignUp screen
     GetPage(
         name: AppRoutes.signUpScreen,
