@@ -6,13 +6,14 @@ import 'package:teka_3dclic/presentation/pages/auth/splash_screen/splash_screen_
 import 'package:teka_3dclic/presentation/routes/app_pages.dart';
 import 'package:teka_3dclic/config/theme/app_theme.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: ".env");
   await Supabase.initialize(
-    url: 'https://gxvmkcsgwrglqdrcraqx.supabase.co',
-    anonKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4dm1rY3Nnd3JnbHFkcmNyYXF4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDQ1NzI4MTEsImV4cCI6MjAyMDE0ODgxMX0.nOhfk8NZ-jeyIhmbrdKsgANGqadqUiqQ7xBLV_h-YNA',
+    url: dotenv.env['API_URL']!,
+    anonKey: dotenv.env['API_KEY']!,
   );
   runApp(const MainApp());
 }
