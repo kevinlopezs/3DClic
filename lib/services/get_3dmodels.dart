@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:dio/dio.dart';
 
-import '../../domain/entities/model3d.dart';
+import '../data/models/model3d.dart';
 
 class GetModels3D {
   final _dio = Dio();

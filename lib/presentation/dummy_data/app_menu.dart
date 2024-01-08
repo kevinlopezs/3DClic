@@ -1,3 +1,5 @@
+import 'package:teka_3dclic/presentation/routes/app_pages.dart';
+
 class AppMenus {
   final String title;
   final String icon;
@@ -12,20 +14,20 @@ const appMenus = <AppMenus>[
 
   //Calculator screen route
   AppMenus(
-      title: 'Calculadora 3D',
-      link: '/calculator_screen',
+      title: '3D calculator',
+      link: AppRoutes.calculatorScreen,
       icon: 'assets/images/calculator.png'),
 
   //Invoices screen route
   AppMenus(
-      title: 'Cotizaciones',
-      link: '/invoice_screen',
+      title: 'Quotes PDF',
+      link: AppRoutes.invoiceScreen,
       icon: 'assets/images/invoices.png'),
 
   //New 3D objects screen
   AppMenus(
-      title: 'Modelos 3D',
-      link: '/models_3d_screen',
+      title: '3D Models',
+      link: AppRoutes.models3DScreen,
       icon: 'assets/images/3d_printing.png'),
 ];
 

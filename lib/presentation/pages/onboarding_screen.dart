@@ -1,23 +1,19 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:go_router/go_router.dart';
-import '../../../shared/data/intro_screen_data.dart';
+import 'package:teka_3dclic/presentation/routes/app_pages.dart';
+import '../dummy_data/onboarding_data.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 
-import '../screens.dart';
-
-class Welcome extends StatefulWidget {
-  //Static name for screen
-  static const String name = 'welcome_screen';
-
-  const Welcome({super.key});
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  State<Welcome> createState() => _WelcomeState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _WelcomeState extends State<Welcome> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
@@ -39,7 +35,7 @@ class _WelcomeContent extends StatefulWidget {
 }
 
 class _WelcomeContentState extends State<_WelcomeContent> {
-  final _totalDots = 4;
+  final _totalDots = slidesIntroTutorial.length;
   int _currentPage = 0;
   final PageController _pageViewController = PageController(initialPage: 0);
 
@@ -47,6 +43,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
 
   @override
   void initState() {
+    super.initState();
     if (!isMounted) return;
 
     if (mounted) {
@@ -59,7 +56,7 @@ class _WelcomeContentState extends State<_WelcomeContent> {
       // TODO: implement initState
 
       Timer.periodic(const Duration(seconds: 5), (timer) {
-        if (_currentPage < 3 && isMounted) {
+        if (_currentPage < 1 && isMounted) {
           _currentPage++;
           if (!isMounted) return; //This solve crash screen mounted
           setState(() {});
@@ -76,8 +73,6 @@ class _WelcomeContentState extends State<_WelcomeContent> {
         );
       });
     } //THIS IS VERY IMPORTANT TO UPDATE PAGE VIEW CONTROLLER
-
-    super.initState();
   }
 
   @override
@@ -120,22 +115,11 @@ class _WelcomeContentState extends State<_WelcomeContent> {
         DotsIndicator(
           dotsCount: _totalDots,
           position: _currentPage,
-
-          //position: _currentPage,
         ),
 
-        /*Text(
-          '¡No pares de imprimir!',
-          style: fonts.titleMedium,
-        ),*/
         const SizedBox(
           height: 25,
         ),
-        /*Text(
-          'Es momento de empezar',
-          style: fonts.titleSmall,
-          textAlign: TextAlign.center,
-        ),*/
 
         //Sign up button
         SizedBox(
@@ -151,12 +135,12 @@ class _WelcomeContentState extends State<_WelcomeContent> {
                           borderRadius: BorderRadius.circular(24.0)))),
               onPressed: () {
                 //Action to go sign up screen
-                context.pushNamed(SignUp.name);
+                Get.toNamed(AppRoutes.signUpScreen);
               },
               child: Padding(
                   padding: const EdgeInsets.all(14.0),
                   child: Text(
-                    'Crear cuenta',
+                    'Sign up',
                     style: fonts.labelLarge,
                   ))),
         ),
@@ -181,12 +165,12 @@ class _WelcomeContentState extends State<_WelcomeContent> {
                       RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30.0)))),
               onPressed: () {
-                context.pushNamed(Login.name);
+                Get.toNamed(AppRoutes.signInScreen);
               },
               child: const Padding(
                   padding: EdgeInsets.all(14.0),
                   child: Text(
-                    'Ingresar',
+                    'Sign in',
                     style: TextStyle(fontSize: 16),
                   ))),
         ),

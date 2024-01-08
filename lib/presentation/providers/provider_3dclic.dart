@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:teka_3dclic/config/helpers/get_3dmodels.dart';
+import 'package:teka_3dclic/services/get_3dmodels.dart';
 
-import '../../domain/entities/model3d.dart';
+import '../../data/models/model3d.dart';
 
 class Clic3DProvider extends ChangeNotifier {
   //Constructor
