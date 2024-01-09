@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:teka_3dclic/presentation/pages/auth/sign_up/sign_up_screen_controller.dart';
-import 'package:teka_3dclic/services/auth_services.dart';
+import 'package:teka_3dclic/presentation/routes/app_pages.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -74,7 +74,6 @@ class _SignUpBodyState extends State<_SignUpBody> {
 
     //Instance for listen signUpController
     final signUpController = Get.find<SignUpController>();
-    AuthServices authServices = AuthServices();
 
     //Scroll is used to auto scroll when user uses textformfield
     return SingleChildScrollView(
@@ -158,7 +157,7 @@ class _SignUpBodyState extends State<_SignUpBody> {
                             signUpController.signUp();
                             //authServices
                             //    .checkEmailExists(widget.emailController.text);
-                            //Get.toNamed(AppRoutes.signUpVerificationScreen);
+                            Get.toNamed(AppRoutes.signInScreen);
                           } else {
                             return;
                           }

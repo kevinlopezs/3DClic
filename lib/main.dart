@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:teka_3dclic/presentation/controllers/home_controller.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:teka_3dclic/models/user_model.dart';
+import 'package:teka_3dclic/presentation/global_controllers/home_controller.dart';
 import 'package:teka_3dclic/presentation/pages/auth/splash_screen/splash_screen_controller.dart';
 import 'package:teka_3dclic/presentation/routes/app_pages.dart';
 import 'package:teka_3dclic/config/theme/app_theme.dart';
@@ -11,10 +13,14 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  await Hive.initFlutter();
+  if (!Hive.isBoxOpen("user")) await Hive.openBox<UserModel>("user");
+  if (!Hive.isBoxOpen("auth")) await Hive.openBox("auth");
   await Supabase.initialize(
     url: dotenv.env['API_URL']!,
     anonKey: dotenv.env['API_KEY']!,
   );
+
   runApp(const MainApp());
 }
 

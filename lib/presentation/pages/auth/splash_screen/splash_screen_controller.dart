@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:teka_3dclic/main.dart';
+import 'package:teka_3dclic/manager/hive_manager.dart';
 import 'package:teka_3dclic/presentation/routes/app_pages.dart';
 
 class SplashScreenController extends GetxController {
@@ -17,7 +18,7 @@ class SplashScreenController extends GetxController {
   Future<void> _redirect() async {
     await Future.delayed(Duration.zero);
     final session = supabase.auth.currentSession;
-    if (session != null) {
+    if (session != null || hiveManager.token != null) {
       Get.toNamed(AppRoutes.homeScreen);
     } else {
       Get.toNamed(AppRoutes.onboardingScreen);

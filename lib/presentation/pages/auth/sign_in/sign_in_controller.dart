@@ -1,14 +1,15 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:teka_3dclic/main.dart';
+import 'package:teka_3dclic/manager/hive_manager.dart';
+import 'package:teka_3dclic/models/user_session_model.dart';
 import 'package:teka_3dclic/presentation/routes/app_pages.dart';
 import 'package:teka_3dclic/services/auth_services.dart';
 
-class SignUpController extends GetxController {
+class SignInController extends GetxController {
   //Variables
   //Global Form key for validations
   final formKey = GlobalKey<FormState>();
@@ -22,18 +23,12 @@ class SignUpController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    signUpSession();
-  }
-
-  @override
-  void dispose() {
-    authStateSubscription.cancel();
-    super.dispose();
+    userSession();
   }
 
   //Functions to signUp an user in supabase service
   //This checks if user has session or not
-  Future<void> signUpSession() async {
+  Future<void> userSession() async {
     authStateSubscription = supabase.auth.onAuthStateChange.listen((data) {
       if (loadingRedirecting.value) return;
       final session = data.session;
@@ -45,14 +40,14 @@ class SignUpController extends GetxController {
   }
 
   //This create a new user
-  Future<void> signUp() async {
+  Future<void> signIn() async {
     try {
       loadingAuth.value = true;
 
       //Check If email already exist and return
       final response = await authServices.checkEmailExists(email.value);
-      if (response == true) {
-        Get.snackbar('Error', 'Email already taken. Try with another email',
+      if (response == false) {
+        Get.snackbar('Error', 'Email does not exists. Try with another email',
             duration: const Duration(seconds: 4),
             backgroundColor: Colors.redAccent,
             colorText: Colors.white,
@@ -60,20 +55,23 @@ class SignUpController extends GetxController {
         return;
       }
 
-      await supabase.auth.signUp(
-          email: email.value,
-          password: password.value,
-          emailRedirectTo: kIsWeb
-              ? null
-              : 'io.supabase.flutterquickstart://login-callback/');
-      supabase.auth.headers;
+      final responseSignIn =
+          await authServices.signIn(email: email.value, pwd: password.value);
 
-      Get.snackbar('Success',
-          'Please check your email. We send you a link to activate your account.',
+      if (responseSignIn.statusCode != 200) return;
+
+      final userModel = UserModelSession.fromJson(responseSignIn.data);
+
+      hiveManager.token = userModel.accessToken;
+      hiveManager.user?.id = userModel.user.id;
+
+      Get.snackbar('Success', 'Welcome to 3D Clic',
           duration: const Duration(seconds: 4),
           backgroundColor: Colors.green,
           colorText: Colors.white,
           snackPosition: SnackPosition.TOP);
+
+      Get.toNamed(AppRoutes.homeScreen);
 
       loadingAuth.value = false;
     } on AuthException catch (error) {
@@ -85,7 +83,7 @@ class SignUpController extends GetxController {
 
       loadingAuth.value = false;
     } catch (error) {
-      Get.snackbar('Error', 'Unexpected error ocurred',
+      Get.snackbar('Error', 'Unexpected error ocurred:$error',
           duration: const Duration(seconds: 4),
           backgroundColor: Colors.redAccent,
           colorText: Colors.white,

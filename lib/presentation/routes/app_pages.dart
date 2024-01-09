@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:teka_3dclic/presentation/pages/auth/splash_screen/splash_screen.dart';
 import 'package:teka_3dclic/presentation/pages/screens.dart';
 part './app_routes.dart';
 
@@ -28,14 +27,6 @@ abstract class AppPages {
         page: () => const SignUp(),
         binding: BindingsBuilder(() {
           Get.lazyPut(() => const SignUp());
-        })),
-
-    //SignUp Verification screen
-    GetPage(
-        name: AppRoutes.signUpVerificationScreen,
-        page: () => const SignUpVerification(),
-        binding: BindingsBuilder(() {
-          Get.lazyPut(() => const SignUpVerification());
         })),
 
     //SignIn screen

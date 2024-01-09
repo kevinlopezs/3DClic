@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teka_3dclic/presentation/dummy_data/app_menu.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:teka_3dclic/presentation/global_controllers/home_controller.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const name = 'home_screen';
   const HomeScreen({super.key});
 
   static const cards = <Map<String, dynamic>>[];
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final PageController _pageViewController = PageController(initialPage: 0);
 
   bool isMounted = true;
-
+  final HomeController homeController = Get.put(HomeController());
   //const homeMenu = cards;
   @override
   void initState() {
@@ -74,87 +74,95 @@ class _HomeScreenState extends State<HomeScreen> {
     final colors = Theme.of(context).colorScheme;
     final size = MediaQuery.of(context).size;
 
-    return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.only(top: 18, left: 24, right: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Hi Kevin',
-                  style: fonts.bodySmall,
-                ),
-                RotatedBox(
-                  quarterTurns: 135,
-                  child: Icon(
-                    Icons.bar_chart_rounded,
-                    color: colors.primary,
-                    size: 28,
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          margin: const EdgeInsets.only(top: 18, left: 24, right: 24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Hi Kevin',
+                    style: fonts.bodySmall,
                   ),
-                )
-              ],
-            ),
-            Expanded(
-                child: ListView(
-              physics: const BouncingScrollPhysics(),
-              children: [
-                const SizedBox(
-                  height: 32,
-                ),
-                SizedBox(
-                  height: size.width * 0.5,
-                  //width: size.width * 0.4,
-                  child: PageView(
-                    controller: _pageViewController,
-                    onPageChanged: (value) => _currentPage = value,
-                    children: [
-                      Center(
-                        child: Image.asset(
-                          width: size.width * 0.5,
-                          'assets/images/3d_modeling_amico.png',
-                          scale: 1.2,
-                        ),
+                  GestureDetector(
+                    onTap: () {
+                      homeController.signOut();
+                      print('ojojojo');
+                    },
+                    child: RotatedBox(
+                      quarterTurns: 135,
+                      child: Icon(
+                        Icons.bar_chart_rounded,
+                        color: colors.primary,
+                        size: 28,
                       ),
-                      Center(
-                        child: Image.asset(
-                          width: size.width * 0.5,
-                          'assets/images/3d_modeling_rafiki.png',
-                          scale: 1.2,
-                        ),
-                      ),
-                    ],
+                    ),
+                  )
+                ],
+              ),
+              Expanded(
+                  child: ListView(
+                physics: const BouncingScrollPhysics(),
+                children: [
+                  const SizedBox(
+                    height: 32,
                   ),
-                ),
-                10.verticalSpace,
+                  SizedBox(
+                    height: size.width * 0.5,
+                    //width: size.width * 0.4,
+                    child: PageView(
+                      controller: _pageViewController,
+                      onPageChanged: (value) => _currentPage = value,
+                      children: [
+                        Center(
+                          child: Image.asset(
+                            width: size.width * 0.5,
+                            'assets/images/3d_modeling_amico.png',
+                            scale: 1.2,
+                          ),
+                        ),
+                        Center(
+                          child: Image.asset(
+                            width: size.width * 0.5,
+                            'assets/images/3d_modeling_rafiki.png',
+                            scale: 1.2,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  10.verticalSpace,
 
-                Text(
-                  'Menu',
-                  style: fonts.titleMedium,
-                ),
-                10.verticalSpace,
-                //This is method for map screen of cards
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: size.width * 0.1,
-                  runSpacing: size.width * 0.05,
-                  children: appMenus
-                      .map((slideData) => _cardMenu(
-                          onTap: () {
-                            //context.push(slideData.link);
-                            Get.toNamed(slideData.link);
-                          },
-                          title: slideData.title,
-                          icon: slideData.icon,
-                          assetHeight: size.height * 0.08))
-                      .toList(),
-                ),
-              ],
-            ))
-          ],
+                  Text(
+                    'Menu',
+                    style: fonts.titleMedium,
+                  ),
+                  10.verticalSpace,
+                  //This is method for map screen of cards
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: size.width * 0.1,
+                    runSpacing: size.width * 0.05,
+                    children: appMenus
+                        .map((slideData) => _cardMenu(
+                            onTap: () {
+                              //context.push(slideData.link);
+                              Get.toNamed(slideData.link);
+                            },
+                            title: slideData.title,
+                            icon: slideData.icon,
+                            assetHeight: size.height * 0.08))
+                        .toList(),
+                  ),
+                ],
+              ))
+            ],
+          ),
         ),
       ),
     );

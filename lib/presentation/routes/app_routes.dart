@@ -6,7 +6,6 @@ abstract class AppRoutes {
   //auth screens
   static const splashScreen = '/splash_screen.dart';
   static const signUpScreen = '/sign_up_screen';
-  static const signUpVerificationScreen = '/sign_up_verification_screen';
   static const signInScreen = '/sign_in_screen';
   //home screen
   static const homeScreen = '/home_screen';
